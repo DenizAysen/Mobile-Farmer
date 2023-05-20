@@ -6,6 +6,7 @@ public class MobileJoystick : MonoBehaviour
 {
     [Header("Elements")]
     [SerializeField] RectTransform joystickOutline;
+    Vector3 _clickedPosition;
     void Start()
     {
         
@@ -18,6 +19,7 @@ public class MobileJoystick : MonoBehaviour
     }
     public void ClickedOnJoystickZoneCallback()
     {
-        Debug.Log("Hello there");
+        _clickedPosition = Input.mousePosition;
+        joystickOutline.position = _clickedPosition;
     }
 }
