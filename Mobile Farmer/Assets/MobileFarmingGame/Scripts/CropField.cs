@@ -1,17 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class CropField : MonoBehaviour
 {
     [Header("Elements")]
     [SerializeField] private Transform TilesParent;
     private List<CropTile> cropTiles = new List<CropTile>();
+
+    [Header("Settings")]
+    [SerializeField] private CropData cropData;
+    private int _tilesSown = 0;
+    private TileFieldState _state;
     void Start()
     {
+        _state = TileFieldState.Empty;
         StoreTiles();
     }
 
+    [Header("Actions")]
+    public static Action<CropField> onFullySown;
     // Update is called once per frame
     void Update()
     {
@@ -62,6 +70,20 @@ public class CropField : MonoBehaviour
     }
     private void Sow(CropTile cropTile)
     {
-        cropTile.Sow();
+        cropTile.Sow(cropData);
+        _tilesSown++;
+
+        if (_tilesSown == cropTiles.Count)
+            FieldFullySown();
+    }
+    private void FieldFullySown()
+    {
+        Debug.Log("Field fully sown");
+        _state = TileFieldState.Sown;
+        onFullySown?.Invoke(this);
+    }
+    public bool IsEmpty()
+    {
+        return _state == TileFieldState.Empty;
     }
 }
