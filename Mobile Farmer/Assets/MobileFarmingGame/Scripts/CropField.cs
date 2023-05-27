@@ -48,6 +48,10 @@ public class CropField : MonoBehaviour
             Sow(_closestCropTile);
         }     
     }
+    public void WaterCollidedCallBack(Vector3[] waterPositons)
+    {
+
+    }
     private CropTile GetClosestCropTile(Vector3 seedPosition)
     {
         float minDistance = 1000;
@@ -85,5 +89,13 @@ public class CropField : MonoBehaviour
     public bool IsEmpty()
     {
         return _state == TileFieldState.Empty;
+    }
+    public bool IsSown()
+    {
+        return _state == TileFieldState.Sown;
+    }
+    public bool IsWatered()
+    {
+        return _state == TileFieldState.Watered;
     }
 }

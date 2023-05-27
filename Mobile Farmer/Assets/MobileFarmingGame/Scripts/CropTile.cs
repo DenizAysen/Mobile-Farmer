@@ -8,6 +8,7 @@ public class CropTile : MonoBehaviour
     private TileFieldState state;
     [Header("Elements")]
     [SerializeField] private Transform cropParent;
+    Crop _crop;
     void Start()
     {
         state = TileFieldState.Empty;   
@@ -25,10 +26,7 @@ public class CropTile : MonoBehaviour
     public void Sow(CropData cropData)
     {
         state = TileFieldState.Sown;
-        if(cropData.cropPrefab == null)
-        {
-            Debug.Log("Obje yok");
-        }
-        Crop crop = Instantiate(cropData.cropPrefab,transform.position,Quaternion.identity,cropParent);
+        
+       _crop = Instantiate(cropData.cropPrefab,transform.position,Quaternion.identity,cropParent);
     }
 }
