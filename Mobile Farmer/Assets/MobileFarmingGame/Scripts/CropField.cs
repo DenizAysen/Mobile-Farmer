@@ -11,6 +11,7 @@ public class CropField : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private CropData cropData;
     private int _tilesSown = 0;
+    private int _tilesWatered = 0;
     private TileFieldState _state;
     void Start()
     {
@@ -20,7 +21,7 @@ public class CropField : MonoBehaviour
 
     [Header("Actions")]
     public static Action<CropField> onFullySown;
-    // Update is called once per frame
+    public static Action<CropField> onFullyWatered;
     void Update()
     {
         
@@ -41,16 +42,30 @@ public class CropField : MonoBehaviour
         for (int i = 0; i < seedPositons.Length; i++)
         {
             CropTile _closestCropTile = GetClosestCropTile(seedPositons[i]);
+
             if (_closestCropTile == null)
                 continue;
+
             if (!_closestCropTile.IsEmpty())
                 continue;
+
             Sow(_closestCropTile);
         }     
     }
     public void WaterCollidedCallBack(Vector3[] waterPositons)
     {
+        for (int i = 0; i < waterPositons.Length; i++)
+        {
+            CropTile _closestCropTile = GetClosestCropTile(waterPositons[i]);
 
+            if (_closestCropTile == null)
+                continue;
+
+            if (!_closestCropTile.IsSown())
+                continue;
+
+            Water(_closestCropTile);
+        }
     }
     private CropTile GetClosestCropTile(Vector3 seedPosition)
     {
@@ -80,11 +95,24 @@ public class CropField : MonoBehaviour
         if (_tilesSown == cropTiles.Count)
             FieldFullySown();
     }
+    private void Water(CropTile cropTile)
+    {
+        cropTile.Water();
+        _tilesWatered++;
+        if (_tilesWatered == cropTiles.Count)
+            FieldFullyWatered();
+    }
     private void FieldFullySown()
     {
         Debug.Log("Field fully sown");
         _state = TileFieldState.Sown;
         onFullySown?.Invoke(this);
+    }
+    private void FieldFullyWatered()
+    {
+        Debug.Log("Field fully watered");
+        _state = TileFieldState.Watered;
+        onFullyWatered?.Invoke(this);
     }
     public bool IsEmpty()
     {

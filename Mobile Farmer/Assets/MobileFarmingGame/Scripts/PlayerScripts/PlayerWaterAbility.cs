@@ -17,7 +17,7 @@ public class PlayerWaterAbility : MonoBehaviour
         _playerAnimator = GetComponent<PlayerAnimator>();
         _playerToolSelector = GetComponent<PlayerToolSelector>();
 
-        CropField.onFullySown += CropFieldFullyWateredCallBack;
+        CropField.onFullyWatered += CropFieldFullyWateredCallBack;
 
         WaterParticles.onWaterCollided += WaterCollidedCallBack;
 
@@ -27,7 +27,7 @@ public class PlayerWaterAbility : MonoBehaviour
     {
         WaterParticles.onWaterCollided -= WaterCollidedCallBack;
 
-        CropField.onFullySown -= CropFieldFullyWateredCallBack;
+        CropField.onFullyWatered -= CropFieldFullyWateredCallBack;
 
         _playerToolSelector.onToolSelected -= ToolSelectedCallBack;
     }

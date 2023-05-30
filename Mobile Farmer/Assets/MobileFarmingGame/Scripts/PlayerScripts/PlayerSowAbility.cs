@@ -66,11 +66,15 @@ public class PlayerSowAbility : MonoBehaviour
     private void EnteredCropField(CropField cropField)
     {
         if(_playerToolSelector.CanSow())
-           _playerAnimator.PlaySowAnimation();
+        {
+            if (_currentCropField != cropField)
+                _currentCropField = cropField;
+            _playerAnimator.PlaySowAnimation();
+        }
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("CropField"))
+        if (other.CompareTag("CropField") && other.GetComponent<CropField>().IsEmpty())
         {
             EnteredCropField(other.GetComponent<CropField>());
         }
