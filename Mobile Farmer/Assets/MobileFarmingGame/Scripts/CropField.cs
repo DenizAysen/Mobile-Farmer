@@ -22,10 +22,11 @@ public class CropField : MonoBehaviour
     [Header("Actions")]
     public static Action<CropField> onFullySown;
     public static Action<CropField> onFullyWatered;
-    void Update()
-    {
-        
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKey(KeyCode.Space))
+    //        InstantlySownTiles();
+    //}
     private void StoreTiles()
     {
         for (int i = 0; i < TilesParent.childCount; i++)
@@ -87,6 +88,7 @@ public class CropField : MonoBehaviour
         }
         return cropTiles[closestCropTileIndex];
     }
+    #region Sow
     private void Sow(CropTile cropTile)
     {
         cropTile.Sow(cropData);
@@ -95,6 +97,14 @@ public class CropField : MonoBehaviour
         if (_tilesSown == cropTiles.Count)
             FieldFullySown();
     }
+    private void FieldFullySown()
+    {
+        Debug.Log("Field fully sown");
+        _state = TileFieldState.Sown;
+        onFullySown?.Invoke(this);
+    }
+    #endregion
+    #region Water
     private void Water(CropTile cropTile)
     {
         cropTile.Water();
@@ -102,18 +112,32 @@ public class CropField : MonoBehaviour
         if (_tilesWatered == cropTiles.Count)
             FieldFullyWatered();
     }
-    private void FieldFullySown()
-    {
-        Debug.Log("Field fully sown");
-        _state = TileFieldState.Sown;
-        onFullySown?.Invoke(this);
-    }
     private void FieldFullyWatered()
     {
         Debug.Log("Field fully watered");
         _state = TileFieldState.Watered;
         onFullyWatered?.Invoke(this);
     }
+    #endregion
+    #region NaughtyAttributes
+    [NaughtyAttributes.Button]
+    private void InstantlySownTiles()
+    {
+        foreach (CropTile cropTile in cropTiles)
+        {
+            Sow(cropTile);
+        }
+    }
+    [NaughtyAttributes.Button]
+    private void InstantlyWaterTiles()
+    {
+        foreach (CropTile cropTile in cropTiles)
+        {
+            Water(cropTile);
+        }
+    }
+    #endregion
+    #region States
     public bool IsEmpty()
     {
         return _state == TileFieldState.Empty;
@@ -126,4 +150,5 @@ public class CropField : MonoBehaviour
     {
         return _state == TileFieldState.Watered;
     }
+    #endregion
 }

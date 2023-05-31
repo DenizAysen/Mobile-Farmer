@@ -51,9 +51,7 @@ public class PlayerWaterAbility : MonoBehaviour
     private void CropFieldFullyWateredCallBack(CropField cropField)
     {
         if (cropField == _currentCropField)
-        {
             _playerAnimator.StopWaterAnimation();
-        }
     }
     private void OnTriggerEnter(Collider other)
     {
