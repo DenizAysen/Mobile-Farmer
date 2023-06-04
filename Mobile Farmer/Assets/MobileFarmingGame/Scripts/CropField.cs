@@ -12,6 +12,7 @@ public class CropField : MonoBehaviour
     [SerializeField] private CropData cropData;
     private int _tilesSown = 0;
     private int _tilesWatered = 0;
+    private int _tilesHarvested = 0;
     private TileFieldState _state;
     void Start()
     {
@@ -22,6 +23,7 @@ public class CropField : MonoBehaviour
     [Header("Actions")]
     public static Action<CropField> onFullySown;
     public static Action<CropField> onFullyWatered;
+    public static Action<CropField> onFullyHarvested;
     //void Update()
     //{
     //    if (Input.GetKey(KeyCode.Space))
@@ -32,10 +34,6 @@ public class CropField : MonoBehaviour
         for (int i = 0; i < TilesParent.childCount; i++)
         {
             cropTiles.Add(TilesParent.GetChild(i).GetComponent<CropTile>());
-        }
-        for (int i = 0; i < cropTiles.Count; i++)
-        {
-            Debug.Log(cropTiles[i].name);
         }
     }
     public void SeedsCollidedCallBack(Vector3[] seedPositons)
@@ -117,6 +115,41 @@ public class CropField : MonoBehaviour
         Debug.Log("Field fully watered");
         _state = TileFieldState.Watered;
         onFullyWatered?.Invoke(this);
+    }
+    #endregion
+    #region Harvest
+    public void Harvest(Transform harvestSphere)
+    {
+        float _sphereRadius = harvestSphere.localScale.x;
+
+        for (int i = 0; i < cropTiles.Count; i++)
+        {
+            if (cropTiles[i].IsEmpty())
+                continue;
+
+            float distanceCropSphere = Vector3.Distance(harvestSphere.position, cropTiles[i].transform.position);
+
+            if (distanceCropSphere < _sphereRadius)
+                HarvestTile(cropTiles[i]);
+        }
+    }
+    private void HarvestTile(CropTile cropTile)
+    {
+        cropTile.Harvest();
+
+        _tilesHarvested++;
+        if (_tilesHarvested == cropTiles.Count)
+            FieldFullyHarvested();
+    }
+    private void FieldFullyHarvested()
+    {
+        _tilesSown = 0;
+        _tilesWatered = 0;
+        _tilesHarvested = 0;
+
+        _state = TileFieldState.Empty;
+
+        onFullyHarvested?.Invoke(this);
     }
     #endregion
     #region NaughtyAttributes

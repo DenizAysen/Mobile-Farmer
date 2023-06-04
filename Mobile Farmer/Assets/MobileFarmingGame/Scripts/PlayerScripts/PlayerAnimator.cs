@@ -40,6 +40,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.Play("Idle");
     }
+    #region SowAnim
     public void PlaySowAnimation()
     {
         animator.SetLayerWeight(1, 1);
@@ -48,6 +49,8 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.SetLayerWeight(1, 0);
     }
+    #endregion
+    #region WaterAnim
     public void StopWaterAnimation()
     {
         animator.SetLayerWeight(2, 0);
@@ -57,4 +60,15 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.SetLayerWeight(2, 1);
     }
+    #endregion
+    #region HarvestAnim
+    public void PlayHarvestAnimation()
+    {
+        animator.SetLayerWeight(3, 1);
+    }
+    public void StopHarvestAnimation()
+    {
+        animator.SetLayerWeight(3, 0);
+    }
+    #endregion
 }

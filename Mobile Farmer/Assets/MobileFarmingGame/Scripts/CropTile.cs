@@ -42,4 +42,12 @@ public class CropTile : MonoBehaviour
 
         tileRenderer.gameObject.LeanColor(Color.white * .3f, 1f).setEase(LeanTweenType.easeOutBack);
     }
+    public void Harvest()
+    {
+        state = TileFieldState.Empty;
+
+        _crop.ScaleDown();
+
+        tileRenderer.gameObject.LeanColor(Color.white , 1f);
+    }
 }
