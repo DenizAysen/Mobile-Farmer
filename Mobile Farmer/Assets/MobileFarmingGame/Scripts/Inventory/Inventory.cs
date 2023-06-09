@@ -30,11 +30,19 @@ public class Inventory
         items.Add(new InventoryItem(cropType, 1));
 
     }
+    public InventoryItem[] GetInventoryItems()
+    {
+        return items.ToArray();
+    }
     public void DebugInventory()
     {
         foreach (var inventoryItem in items)
         {
-            Debug.Log("We have " + inventoryItem.amount + " items in our " + inventoryItem + " list");
+            Debug.Log("We have " + inventoryItem.amount + " items in our " + inventoryItem.cropType + " list");
         }
+    }
+    public void Clear()
+    {
+        items.Clear();
     }
 }

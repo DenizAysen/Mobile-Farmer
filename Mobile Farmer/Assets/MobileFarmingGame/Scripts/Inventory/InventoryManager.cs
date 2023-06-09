@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+[RequireComponent(typeof(InventoryDisplay))]
 public class InventoryManager : MonoBehaviour
 {
     private Inventory _inventory;
+    private InventoryDisplay _inventoryDisplay;
     private string _dataPath;
     void Start()
     {
         _dataPath = Application.dataPath + "/inventoryData.txt";
-        //_inventory = new Inventory();
+       
         LoadInventory();
+        ConfigureInventoryDisplay();
 
         CropTile.onCropHarvested += CropHarvestedCallBack;
     }
@@ -19,11 +22,25 @@ public class InventoryManager : MonoBehaviour
     {
         CropTile.onCropHarvested -= CropHarvestedCallBack;
     }
-
+    private void ConfigureInventoryDisplay()
+    {
+        _inventoryDisplay = GetComponent<InventoryDisplay>();
+        _inventoryDisplay.Configure(_inventory);
+    }
     private void CropHarvestedCallBack(CropType cropType)
     {
         _inventory.CropHarvestedCallBack(cropType);
 
+        _inventoryDisplay.UpdateDisplay(_inventory);
+
+        SaveInventory();
+    }
+
+    [NaughtyAttributes.Button]
+    private void ClearInventory()
+    {
+        _inventory.Clear();
+        _inventoryDisplay.UpdateDisplay(_inventory);
         SaveInventory();
     }
     private void LoadInventory()
