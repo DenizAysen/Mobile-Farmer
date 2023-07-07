@@ -37,11 +37,15 @@ public class InventoryManager : MonoBehaviour
     }
 
     [NaughtyAttributes.Button]
-    private void ClearInventory()
+    public void ClearInventory()
     {
         _inventory.Clear();
         _inventoryDisplay.UpdateDisplay(_inventory);
         SaveInventory();
+    }
+    public Inventory GetInventory()
+    {
+        return _inventory;
     }
     private void LoadInventory()
     {        

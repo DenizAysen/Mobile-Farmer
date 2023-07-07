@@ -17,6 +17,7 @@ public class InventoryDisplay : MonoBehaviour
     {
         
     }
+
     public void Configure(Inventory inventory)
     {
         InventoryItem[] items = inventory.GetInventoryItems();
@@ -30,6 +31,7 @@ public class InventoryDisplay : MonoBehaviour
             uICropContainer.Configure(sprite, items[i].amount);
         }
     }
+
     public void UpdateDisplay(Inventory inventory)
     {
         InventoryItem[] items = inventory.GetInventoryItems();

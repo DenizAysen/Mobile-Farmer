@@ -9,4 +9,5 @@ public class CropData : ScriptableObject
     public Crop cropPrefab;
     public CropType cropType;
     public Sprite icon;
+    public int price;
 }

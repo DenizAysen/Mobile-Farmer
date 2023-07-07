@@ -25,4 +25,14 @@ public class DataManager : MonoBehaviour
         Debug.LogError("No icons found in cropData");
         return null;
     }
+    public int GetCropPriceFromCropType(CropType cropType)
+    {
+        for (int i = 0; i < cropDatas.Length; i++)
+        {
+            if (cropDatas[i].cropType == cropType)
+                return cropDatas[i].price;
+        }
+        Debug.LogError("No cropData found in that type");
+        return 0;
+    }
 }
