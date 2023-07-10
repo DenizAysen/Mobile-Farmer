@@ -36,13 +36,26 @@ public class CashManager : MonoBehaviour
             coinContainer.GetComponent<TextMeshProUGUI>().text = _coins.ToString();
         }
     }
-    public void AddCoins(int amaount)
+    public void AddCoins(int amount)
     {
-        _coins += amaount;
+        _coins += amount;
         UpdateCoinContainers();
         Debug.Log("We have " + _coins + " coins");
 
         SaveData();
+    }
+    public void UseCoins(int amount)
+    {
+        AddCoins(-amount);
+    }
+    public int GetCoins()
+    {
+        return _coins;
+    }
+    [NaughtyAttributes.Button]
+    private void Add500Coins()
+    {
+        AddCoins(500);
     }
     private void LoadData()
     {
