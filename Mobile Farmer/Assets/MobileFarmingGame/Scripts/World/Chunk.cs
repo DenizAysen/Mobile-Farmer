@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 public class Chunk : MonoBehaviour
 {
     [Header(" Elements ")]
@@ -12,10 +13,13 @@ public class Chunk : MonoBehaviour
     [Header(" Settings ")]
     [SerializeField] private int initialPrice;
     private int _currentPrice;
+    private bool unlocked = false;
+
+    [Header("Actions")]
+    public static Action onUnlocked;
     void Start()
     {
-        priceText.text = initialPrice.ToString();
-        _currentPrice = initialPrice;
+        
     }
 
     // Update is called once per frame
@@ -23,6 +27,16 @@ public class Chunk : MonoBehaviour
     {
         
     }
+    public void Initialaze(int Loadedprice)
+    {
+        _currentPrice = Loadedprice;
+        priceText.text = _currentPrice.ToString();
+
+        if (_currentPrice <= 0)
+            Unlock(false);
+    }
+
+    #region Unlock Methods
     public void TryUnlock()
     {
         if (CashManager.instance.GetCoins() <= 0)
@@ -35,10 +49,28 @@ public class Chunk : MonoBehaviour
         if (_currentPrice <= 0)
             Unlock();
     }
-    private void Unlock()
+    private void Unlock(bool triggerAction = true)
     {
         unlockedElements.SetActive(true);
         lockedElements.SetActive(false);
+        unlocked = true;
 
+        if(triggerAction)
+            onUnlocked?.Invoke();
     }
+    public bool IsUnlocked()
+    {
+        return unlocked;
+    }
+#endregion
+    #region GetPriceMethods
+    public int GetCurrentPrice()
+    {
+        return _currentPrice;
+    }
+    public int GetInitialPrice()
+    {
+        return initialPrice;
+    }
+    #endregion
 }
