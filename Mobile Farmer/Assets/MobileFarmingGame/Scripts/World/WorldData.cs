@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WorldData 
 {
-    public int[] chunkPrices;
-    public WorldData(int Amount)
+    public List<int> chunkPrices;
+    public WorldData()
     {
-        chunkPrices = new int[Amount];
+        chunkPrices = new List<int>();
     }
 }

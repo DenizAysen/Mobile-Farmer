@@ -17,6 +17,7 @@ public class Chunk : MonoBehaviour
 
     [Header("Actions")]
     public static Action onUnlocked;
+    public static Action onPriceChanged;
     void Start()
     {
         
@@ -44,6 +45,8 @@ public class Chunk : MonoBehaviour
 
         _currentPrice--;
         CashManager.instance.UseCoins(1);
+        onPriceChanged?.Invoke();
+
         priceText.text = _currentPrice.ToString();
 
         if (_currentPrice <= 0)
