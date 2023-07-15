@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+
+[RequireComponent(typeof(ChunkWalls))]
 public class Chunk : MonoBehaviour
 {
     [Header(" Elements ")]
     [SerializeField] private GameObject unlockedElements;
     [SerializeField] private GameObject lockedElements;
     [SerializeField] private TextMeshPro priceText;
+    private ChunkWalls chunkWalls;
 
     [Header(" Settings ")]
     [SerializeField] private int initialPrice;
@@ -18,6 +21,11 @@ public class Chunk : MonoBehaviour
     [Header("Actions")]
     public static Action onUnlocked;
     public static Action onPriceChanged;
+
+    private void Awake()
+    {
+        chunkWalls = GetComponent<ChunkWalls>();
+    }
     void Start()
     {
         
@@ -60,6 +68,14 @@ public class Chunk : MonoBehaviour
 
         if(triggerAction)
             onUnlocked?.Invoke();
+    }
+    public void UpdateWalls(int configuration)
+    {
+        chunkWalls.Configure(configuration);
+    }
+    public void DisplayLockedElements()
+    {
+        lockedElements.SetActive(true);
     }
     public bool IsUnlocked()
     {
