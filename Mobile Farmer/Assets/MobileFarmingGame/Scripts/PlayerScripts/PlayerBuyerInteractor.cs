@@ -37,7 +37,8 @@ public class PlayerBuyerInteractor : MonoBehaviour
 
         Debug.Log("We' ve earned " + _coinsEarned + " coins");
 
-        CashManager.instance.AddCoins(_coinsEarned);
+        //CashManager.instance.AddCoins(_coinsEarned);
+        TransactionEffectManager.instance.PlayCoinParticles(_coinsEarned);
 
         inventoryManager.ClearInventory();
 

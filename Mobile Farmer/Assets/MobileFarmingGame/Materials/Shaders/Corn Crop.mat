@@ -64,6 +64,6 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _PlayerPosition: {r: 0.17114334, g: 0.07999992, b: 5.0938997, a: 0}
+    - _PlayerPosition: {r: 1.504728, g: 0.08000022, b: 1.2590084, a: 0}
     - _Player_Position: {r: 0.29, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
