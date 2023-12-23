@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerChunkDetection : MonoBehaviour
 {
+    [Header(" Actions ")]
+    public static Action<AppleTree> onEnteredAppleZone;
+    public static Action<AppleTree> onExitedAppleZone;
     private void OnTriggerStay(Collider other)
     {
         Chunk chunk;
@@ -32,9 +35,11 @@ public class PlayerChunkDetection : MonoBehaviour
     private void TriggeredAppleTree(AppleTree tree)
     {
         Debug.Log("We have entered tree zone");
+        onEnteredAppleZone?.Invoke(tree);
     }
     private void ExitedAppleTreeZone(AppleTree tree)
     {
         Debug.Log("We have exited tree zone");
+        onExitedAppleZone?.Invoke(tree);
     }
 }

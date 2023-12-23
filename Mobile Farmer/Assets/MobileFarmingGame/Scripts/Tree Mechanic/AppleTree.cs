@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AppleTree : MonoBehaviour
 {
+    [Header("Elements")]
+    [SerializeField] private GameObject treeCam;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,13 @@ public class AppleTree : MonoBehaviour
     void Update()
     {
         
+    }
+    public void EnableCam()
+    {
+        treeCam.SetActive(true);
+    }
+    public void DisableCam()
+    {
+        treeCam.SetActive(false);
     }
 }
