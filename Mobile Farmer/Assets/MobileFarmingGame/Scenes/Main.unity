@@ -1676,7 +1676,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.35826376, y: 0.000000022718249, z: -0.00000000871781, w: 0.93362045}
+  m_LocalRotation: {x: 0.35826376, y: -0.000000022718249, z: 0.000000008717809, w: 0.93362045}
   m_LocalPosition: {x: 0, y: 13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9920,6 +9920,7 @@ GameObject:
   - component: {fileID: 1295549363}
   - component: {fileID: 1295549364}
   - component: {fileID: 1295549365}
+  - component: {fileID: 1295549366}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -10085,6 +10086,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27cb079a536d7d41bf081116643c5a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1295549366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295549354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da02ab829128e9c40bac1a5ed7883229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceToTree: 1
 --- !u!1 &1349890463
 GameObject:
   m_ObjectHideFlags: 0
@@ -11261,7 +11275,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764103706}
-  m_LocalRotation: {x: 0.35826376, y: 0.000000022718249, z: -0.00000000871781, w: 0.93362045}
+  m_LocalRotation: {x: 0.35826376, y: -0.000000022718249, z: 0.000000008717809, w: 0.93362045}
   m_LocalPosition: {x: 0, y: 13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

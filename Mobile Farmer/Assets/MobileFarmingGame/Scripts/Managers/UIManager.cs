@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
         gamePanel.SetActive(true);
         treeModePanel.SetActive(false);
     }
-    private void SetTreeMode()
+    private void SetTreeMode(AppleTree appleTree)
     {
         treeModePanel.SetActive(true);
         gamePanel.SetActive(false);

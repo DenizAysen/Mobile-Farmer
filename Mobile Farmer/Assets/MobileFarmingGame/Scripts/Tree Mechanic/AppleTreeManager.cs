@@ -9,7 +9,7 @@ public class AppleTreeManager : MonoBehaviour
     private AppleTree _lastTriggeredTree;
 
     [Header("Actions")]
-    public static Action onTreeModeStarted;
+    public static Action<AppleTree> onTreeModeStarted;
     private void Awake()
     {
         SubscribeEvents();
@@ -27,16 +27,6 @@ public class AppleTreeManager : MonoBehaviour
         PlayerChunkDetection.onEnteredAppleZone -= EnteredTreeZoneCallback;
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     #region CallBacks
     private void EnteredTreeZoneCallback(AppleTree tree)
     {
@@ -52,7 +42,7 @@ public class AppleTreeManager : MonoBehaviour
     {
         _lastTriggeredTree.EnableCam();
 
-        onTreeModeStarted?.Invoke();
+        onTreeModeStarted?.Invoke(_lastTriggeredTree);
     }
     #endregion
 }
