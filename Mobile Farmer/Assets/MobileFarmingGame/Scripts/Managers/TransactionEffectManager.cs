@@ -58,11 +58,12 @@ public class TransactionEffectManager : MonoBehaviour
         ParticleSystem.Particle[] particles = new ParticleSystem.Particle[coinAmount];
 
         Vector3 direction = (coinRectTransform.position - camera.transform.position).normalized;
-        Vector3 targetPosition = camera.transform.position + direction * Vector3.Distance(camera.transform.position, coinPS.transform.position);
 
         while (coinPS.isPlaying)
         {
             coinPS.GetParticles(particles);
+            
+            Vector3 targetPosition = camera.transform.position + direction * Vector3.Distance(camera.transform.position, coinPS.transform.position);
 
             for (int i = 0; i < particles.Length; i++)
             {

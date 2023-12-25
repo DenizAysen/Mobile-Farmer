@@ -8,12 +8,12 @@ public class PlayerShakeTreeAbility : MonoBehaviour
 {
     [Header("Components")]
     private PlayerAnimator _playerAnimator;
-
     [Header("Settings")]
     [SerializeField] private float distanceToTree;
     [Range(0f,1f)]
     [SerializeField] private float shakeThreshold = .05f;
     private bool _isActive;
+    private bool _isShaking;
     private Vector2 previousMousePos;
 
     [Header("Elements")]
@@ -27,7 +27,9 @@ public class PlayerShakeTreeAbility : MonoBehaviour
     private void SubscribeEvents()
     {
         AppleTreeManager.onTreeModeStarted += TreeModeStartedCallBack;
+        AppleTreeManager.onTreeModeEnded += TreeModeEndedCallBack;
     }
+
     private void OnDestroy()
     {
         UnSubscribeEvents();
@@ -36,14 +38,16 @@ public class PlayerShakeTreeAbility : MonoBehaviour
     private void UnSubscribeEvents()
     {
         AppleTreeManager.onTreeModeStarted -= TreeModeStartedCallBack;
+        AppleTreeManager.onTreeModeEnded -= TreeModeEndedCallBack;
     }
     private void Update()
     {
-        if (_isActive)
+        if (_isActive && !_isShaking)
         {
             ManageTreeShaking();
         }
     }
+    #region CallBacks
     private void TreeModeStartedCallBack(AppleTree appleTree)
     {
         _currentTree = appleTree;
@@ -52,6 +56,17 @@ public class PlayerShakeTreeAbility : MonoBehaviour
 
         MoveTowardsTree();
     }
+    private void TreeModeEndedCallBack()
+    {
+        _currentTree = null;
+
+        _isActive = false;
+
+        _isShaking = false;
+
+        LeanTween.delayedCall(.1f, () => _playerAnimator.StopShakeAnimation());
+    } 
+    #endregion
     private void MoveTowardsTree()
     {
         Vector3 treePos = _currentTree.transform.position;
@@ -68,12 +83,17 @@ public class PlayerShakeTreeAbility : MonoBehaviour
     private void ManageTreeShaking()
     {
         if (!Input.GetMouseButton(0))
+        {
+            _currentTree.StopShaking();
             return;
+        }
 
         float shakeMagnitude = Vector2.Distance(Input.mousePosition, previousMousePos);
 
         if (ShouldShake(shakeMagnitude))
             Shake();
+        else
+            _currentTree.StopShaking();
 
         previousMousePos = Input.mousePosition;
     }
@@ -87,8 +107,12 @@ public class PlayerShakeTreeAbility : MonoBehaviour
 
     private void Shake()
     {
+        _isShaking = true;
+
         _currentTree.Shake();
 
         _playerAnimator.PlayShakeTreeAnimation();
+
+        LeanTween.delayedCall(.1f, () => _isShaking = false);
     }
 }

@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
         PlayerChunkDetection.onExitedAppleZone += ExitedTreeZoneCallBack;
 
         AppleTreeManager.onTreeModeStarted += SetTreeMode;
+        AppleTreeManager.onTreeModeEnded += SetGameMode;
     }
 
     private void OnDestroy()
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
         PlayerChunkDetection.onExitedAppleZone -= ExitedTreeZoneCallBack;
 
         AppleTreeManager.onTreeModeStarted += SetTreeMode;
+        AppleTreeManager.onTreeModeEnded -= SetGameMode;
     }
 
     // Start is called before the first frame update

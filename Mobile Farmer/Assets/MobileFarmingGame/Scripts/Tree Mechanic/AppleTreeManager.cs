@@ -2,14 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class AppleTreeManager : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private Slider shakeSlider;
+
     [Header("Settings")]
     private AppleTree _lastTriggeredTree;
 
     [Header("Actions")]
     public static Action<AppleTree> onTreeModeStarted;
+    public static Action onTreeModeEnded;
     private void Awake()
     {
         SubscribeEvents();
@@ -34,15 +38,28 @@ public class AppleTreeManager : MonoBehaviour
     }
     public void TreeButtonCallBack()
     {
-        Debug.Log("Tree Button Clicked");
-        StartTreeMod();
-    }
+        if (!_lastTriggeredTree.IsAppleTreeReady())
+        {
+            return;
+        }
 
-    private void StartTreeMod()
-    {
-        _lastTriggeredTree.EnableCam();
-
-        onTreeModeStarted?.Invoke(_lastTriggeredTree);
+        StartTreeMode();
     }
     #endregion
+    private void StartTreeMode()
+    {
+        _lastTriggeredTree.Initialize(this);
+
+        onTreeModeStarted?.Invoke(_lastTriggeredTree);
+
+        UpdateShakeSlider(0);
+    }
+    public void EndTreeMode()
+    {
+        onTreeModeEnded?.Invoke();
+    }
+    public void UpdateShakeSlider(float value)
+    {
+        shakeSlider.value = value;
+    }
 }

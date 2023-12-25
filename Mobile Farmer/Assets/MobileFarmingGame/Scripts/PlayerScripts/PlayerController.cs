@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
 
         _characterController.Move(_moveVector);
 
+        if(transform.position.y > 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        }
+
         _playerAnimator.ManageAnimations(_moveVector);
     }
 }
