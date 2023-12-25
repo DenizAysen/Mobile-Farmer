@@ -6,11 +6,15 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerAnimator))]
 public class PlayerShakeTreeAbility : MonoBehaviour
 {
-    [Header("Componenets")]
+    [Header("Components")]
     private PlayerAnimator _playerAnimator;
 
     [Header("Settings")]
     [SerializeField] private float distanceToTree;
+    [Range(0f,1f)]
+    [SerializeField] private float shakeThreshold = .05f;
+    private bool _isActive;
+    private Vector2 previousMousePos;
 
     [Header("Elements")]
     private AppleTree _currentTree;
@@ -24,13 +28,6 @@ public class PlayerShakeTreeAbility : MonoBehaviour
     {
         AppleTreeManager.onTreeModeStarted += TreeModeStartedCallBack;
     }
-    private void TreeModeStartedCallBack(AppleTree appleTree)
-    {
-        _currentTree = appleTree;
-
-        MoveTowardsTree();
-    }
-
     private void OnDestroy()
     {
         UnSubscribeEvents();
@@ -40,7 +37,21 @@ public class PlayerShakeTreeAbility : MonoBehaviour
     {
         AppleTreeManager.onTreeModeStarted -= TreeModeStartedCallBack;
     }
+    private void Update()
+    {
+        if (_isActive)
+        {
+            ManageTreeShaking();
+        }
+    }
+    private void TreeModeStartedCallBack(AppleTree appleTree)
+    {
+        _currentTree = appleTree;
 
+        _isActive = true;
+
+        MoveTowardsTree();
+    }
     private void MoveTowardsTree()
     {
         Vector3 treePos = _currentTree.transform.position;
@@ -53,5 +64,31 @@ public class PlayerShakeTreeAbility : MonoBehaviour
         _playerAnimator.ManageAnimations(-flatDir);
 
         LeanTween.move(gameObject, targetPos, .5f);
+    }
+    private void ManageTreeShaking()
+    {
+        if (!Input.GetMouseButton(0))
+            return;
+
+        float shakeMagnitude = Vector2.Distance(Input.mousePosition, previousMousePos);
+
+        if (ShouldShake(shakeMagnitude))
+            Shake();
+
+        previousMousePos = Input.mousePosition;
+    }
+
+    private bool ShouldShake(float shakeMagnitude)
+    {
+        float screenPercent = shakeMagnitude / Screen.width;
+
+        return screenPercent >= shakeThreshold;
+    }
+
+    private void Shake()
+    {
+        _currentTree.Shake();
+
+        _playerAnimator.PlayShakeTreeAnimation();
     }
 }
